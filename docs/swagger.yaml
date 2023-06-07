@@ -1,0 +1,56 @@
+basePath: /
+definitions:
+  model.User:
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: API For Inventory Parfume
+  title: Inventory Parfume API
+  version: "1"
+paths:
+  /inv/inventory/login:
+    post:
+      consumes:
+      - application/json
+      description: Login User.
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Login User.
+      tags:
+      - Authentication
+  /inv/inventory/register:
+    post:
+      consumes:
+      - application/json
+      description: Register User.
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Register User.
+      tags:
+      - Authentication
+swagger: "2.0"

@@ -1,0 +1,86 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API For Inventory Parfume",
+        "title": "Inventory Parfume API",
+        "contact": {},
+        "version": "1"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/inv/inventory/login": {
+            "post": {
+                "description": "Login User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login User.",
+                "parameters": [
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/inv/inventory/register": {
+            "post": {
+                "description": "Register User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register User.",
+                "parameters": [
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.User": {
+            "type": "object"
+        }
+    }
+}
