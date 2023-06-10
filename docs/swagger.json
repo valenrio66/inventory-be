@@ -11,6 +11,11 @@
     "paths": {
         "/inv/inventory": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Menampilkan semua data parfume",
                 "consumes": [
                     "application/json"
@@ -32,6 +37,11 @@
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get data parfume.",
                 "consumes": [
                     "application/json"
@@ -66,6 +76,11 @@
         },
         "/inv/inventory/delete/{id_parfume}": {
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "delete data parfume.",
                 "consumes": [
                     "application/json"
@@ -190,6 +205,11 @@
         },
         "/inv/inventory/update/{id_parfume}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "update data parfume.",
                 "consumes": [
                     "application/json"
@@ -232,6 +252,11 @@
         },
         "/inv/inventory/{id_parfume}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get data parfume.",
                 "consumes": [
                     "application/json"
@@ -313,6 +338,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

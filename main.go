@@ -17,6 +17,10 @@ import (
 // @version 1
 // @host localhost:3000
 // @BasePath /
+// @securityDefinitions.apikey ApiKeyAuth
+// @security ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	// Connect to the Database
 	database.ConnectDB()

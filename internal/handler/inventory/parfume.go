@@ -13,6 +13,7 @@ import (
 // @Tags Parfume
 // @Accept application/json
 // @Produce json
+// @security ApiKeyAuth
 // @Success 200 {object} model.Parfume
 // @Router /inv/inventory [get]
 func GetAllParfume(c *fiber.Ctx) error {
@@ -42,6 +43,7 @@ func GetAllParfume(c *fiber.Ctx) error {
 // @Accept application/json
 // @Param request body model.Parfume true "Payload Body [RAW]"
 // @Produce json
+// @security ApiKeyAuth
 // @Success 200 {object} model.Parfume
 // @Router /inv/inventory [post]
 func CreateParfume(c *fiber.Ctx) error {
@@ -75,6 +77,7 @@ func CreateParfume(c *fiber.Ctx) error {
 // @Accept application/json
 // @Param id_parfume path string true "Masukan ID Parfume"
 // @Produce json
+// @security ApiKeyAuth
 // @Success 200 {object} map[string]interface{}
 // @Router /inv/inventory/{id_parfume} [get]
 func GetSingleParfume(c *fiber.Ctx) error {
@@ -114,6 +117,7 @@ func GetSingleParfume(c *fiber.Ctx) error {
 // @Param id_parfume path string true "Masukan ID Parfume"
 // @Param request body model.User true "Payload body [RAW]"
 // @Produce json
+// @security ApiKeyAuth
 // @Success 200 {object} map[string]interface{}
 // @Router /inv/inventory/update/{id_parfume} [put]
 func UpdateParfume(c *fiber.Ctx) error {
@@ -161,6 +165,7 @@ func UpdateParfume(c *fiber.Ctx) error {
 // @Accept application/json
 // @Param id_parfume path string true "Masukan ID parfume"
 // @Produce json
+// @security ApiKeyAuth
 // @Success 200 {object} map[string]interface{}
 // @Router /inv/inventory/delete/{id_parfume} [delete]
 func DeleteParfume(c *fiber.Ctx) error {
