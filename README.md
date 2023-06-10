@@ -2,7 +2,8 @@
 
 ## Progress
 
-1. Register JWT Done
+1. Search Front End Template
+2. Add Another Endpoint
 
 ## Issue
 
