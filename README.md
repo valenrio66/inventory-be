@@ -6,8 +6,11 @@
 
 ## Issue
 
-1. Login Error
+```sh
 
-   ```sh
-   result := database.DB.Where("username = ?", user.Username).First(&user)
-   ```
+```
+
+## DONE
+
+1. JWT Done
+2. Login Error Fixed

@@ -9,6 +9,117 @@
     "host": "localhost:3000",
     "basePath": "/",
     "paths": {
+        "/inv/inventory": {
+            "get": {
+                "description": "Menampilkan semua data parfume",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parfume"
+                ],
+                "summary": "Get all parfume",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Parfume"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "get data parfume.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parfume"
+                ],
+                "summary": "insert data parfume.",
+                "parameters": [
+                    {
+                        "description": "Payload Body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Parfume"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Parfume"
+                        }
+                    }
+                }
+            }
+        },
+        "/inv/inventory/delete/{id_parfume}": {
+            "delete": {
+                "description": "delete data parfume.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parfume"
+                ],
+                "summary": "Hapus Data parfume berdasarkan ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Masukan ID parfume",
+                        "name": "id_parfume",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/inv/inventory/getme/": {
+            "get": {
+                "description": "get data user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Data user berdasarkan ID.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        },
         "/inv/inventory/login": {
             "post": {
                 "description": "Login User.",
@@ -76,11 +187,132 @@
                     }
                 }
             }
+        },
+        "/inv/inventory/update/{id_parfume}": {
+            "put": {
+                "description": "update data parfume.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parfume"
+                ],
+                "summary": "update data parfume.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Masukan ID Parfume",
+                        "name": "id_parfume",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Payload body [RAW]",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/inv/inventory/{id_parfume}": {
+            "get": {
+                "description": "get data parfume.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Parfume"
+                ],
+                "summary": "Data parfume berdasarkan ID.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Masukan ID Parfume",
+                        "name": "id_parfume",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "model.Parfume": {
+            "type": "object",
+            "properties": {
+                "deskripsi": {
+                    "type": "string"
+                },
+                "harga": {
+                    "type": "integer"
+                },
+                "jenis_parfume": {
+                    "type": "string"
+                },
+                "merk": {
+                    "type": "string"
+                },
+                "nama_parfume": {
+                    "type": "string"
+                },
+                "stok": {
+                    "type": "integer"
+                },
+                "thn_peluncuran": {
+                    "type": "string"
+                },
+                "ukuran": {
+                    "type": "string"
+                }
+            }
+        },
         "model.User": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         }
     }
 }

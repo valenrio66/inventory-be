@@ -27,7 +27,7 @@ func RegisterUser(c *fiber.Ctx) error {
 	// Parsing body request ke struct User
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body",
+			"message": "Request Body Invalid",
 		})
 	}
 
@@ -35,7 +35,7 @@ func RegisterUser(c *fiber.Ctx) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Failed to register user",
+			"message": "Gagal Register",
 		})
 	}
 
@@ -43,12 +43,12 @@ func RegisterUser(c *fiber.Ctx) error {
 	user.Password = string(hashedPassword)
 	if err := database.DB.Create(&user).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Failed to register user",
+			"message": "Gagal Register",
 		})
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "User registered successfully",
+		"message": "Berhasil Register!",
 	})
 }
 
@@ -64,11 +64,12 @@ func RegisterUser(c *fiber.Ctx) error {
 // Login handler
 func LoginUser(c *fiber.Ctx) error {
 	var user model.User
+	inputPassword := c.FormValue("password")
 
 	// Parsing body request ke struct User
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Invalid request body",
+			"message": "Request Body nya Invalid",
 		})
 	}
 
@@ -77,7 +78,7 @@ func LoginUser(c *fiber.Ctx) error {
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"message": "Invalid username or password",
+				"message": "Terjadi Kesalahan",
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -86,15 +87,15 @@ func LoginUser(c *fiber.Ctx) error {
 	}
 
 	// Verifikasi password
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(user.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(inputPassword)); err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid username or password",
+			"message": "Username atau Password Salah",
 		})
 	}
 
 	// Buat JWT token
 	claims := &model.JWTClaims{
-		IdUser: user.ID,
+		IdUser: user.IdUser,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		},
@@ -104,7 +105,7 @@ func LoginUser(c *fiber.Ctx) error {
 	tokenString, err := token.SignedString([]byte("secret_key"))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Failed to login",
+			"message": "Gagal Mendapatkan Token",
 		})
 	}
 
@@ -113,8 +114,16 @@ func LoginUser(c *fiber.Ctx) error {
 	})
 }
 
+// GetMe godoc
+// @Summary Data user berdasarkan ID.
+// @Description get data user.
+// @Tags Authentication
+// @Accept application/json
+// @Produce json
+// @Success 200 {object} model.User
+// @Router /inv/inventory/getme/ [get]
 // GetMe handler
-func getMe(c *fiber.Ctx) error {
+func GetMe(c *fiber.Ctx) error {
 	// Mendapatkan data user yang sedang login melalui JWT token
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(*model.JWTClaims)
@@ -125,11 +134,11 @@ func getMe(c *fiber.Ctx) error {
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"message": "User not found",
+				"message": "User Tidak Ditemukan",
 			})
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Failed to get user data",
+			"message": "Gagal untuk Mendapatkan Data User",
 		})
 	}
 
@@ -147,7 +156,7 @@ func Authenticate(c *fiber.Ctx) error {
 		token = authHeader[7:]
 	} else {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid authorization header",
+			"message": "Header Otorisasi Salah",
 		})
 	}
 
@@ -159,17 +168,17 @@ func Authenticate(c *fiber.Ctx) error {
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-				"message": "Invalid token signature",
+				"message": "Token Invalid",
 			})
 		}
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Failed to authenticate token",
+			"message": "Gagal Mengautentikasi Token",
 		})
 	}
 
 	if !tkn.Valid {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Invalid token",
+			"message": "Token Salah",
 		})
 	}
 
@@ -177,4 +186,13 @@ func Authenticate(c *fiber.Ctx) error {
 	c.Locals("user", tkn)
 
 	return c.Next()
+}
+
+func LogoutUser(c *fiber.Ctx) error {
+	// Hapus token dari Authorization header
+	c.Set("Authorization", "")
+
+	return c.JSON(fiber.Map{
+		"message": "Logout berhasil",
+	})
 }

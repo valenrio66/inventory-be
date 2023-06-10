@@ -1,6 +1,36 @@
 basePath: /
 definitions:
+  model.Parfume:
+    properties:
+      deskripsi:
+        type: string
+      harga:
+        type: integer
+      jenis_parfume:
+        type: string
+      merk:
+        type: string
+      nama_parfume:
+        type: string
+      stok:
+        type: integer
+      thn_peluncuran:
+        type: string
+      ukuran:
+        type: string
+    type: object
   model.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      nama:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
     type: object
 host: localhost:3000
 info:
@@ -9,6 +39,101 @@ info:
   title: Inventory Parfume API
   version: "1"
 paths:
+  /inv/inventory:
+    get:
+      consumes:
+      - application/json
+      description: Menampilkan semua data parfume
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Parfume'
+      summary: Get all parfume
+      tags:
+      - Parfume
+    post:
+      consumes:
+      - application/json
+      description: get data parfume.
+      parameters:
+      - description: Payload Body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Parfume'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Parfume'
+      summary: insert data parfume.
+      tags:
+      - Parfume
+  /inv/inventory/{id_parfume}:
+    get:
+      consumes:
+      - application/json
+      description: get data parfume.
+      parameters:
+      - description: Masukan ID Parfume
+        in: path
+        name: id_parfume
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Data parfume berdasarkan ID.
+      tags:
+      - Parfume
+  /inv/inventory/delete/{id_parfume}:
+    delete:
+      consumes:
+      - application/json
+      description: delete data parfume.
+      parameters:
+      - description: Masukan ID parfume
+        in: path
+        name: id_parfume
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Hapus Data parfume berdasarkan ID.
+      tags:
+      - Parfume
+  /inv/inventory/getme/:
+    get:
+      consumes:
+      - application/json
+      description: get data user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Data user berdasarkan ID.
+      tags:
+      - Authentication
   /inv/inventory/login:
     post:
       consumes:
@@ -53,4 +178,32 @@ paths:
       summary: Register User.
       tags:
       - Authentication
+  /inv/inventory/update/{id_parfume}:
+    put:
+      consumes:
+      - application/json
+      description: update data parfume.
+      parameters:
+      - description: Masukan ID Parfume
+        in: path
+        name: id_parfume
+        required: true
+        type: string
+      - description: Payload body [RAW]
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: update data parfume.
+      tags:
+      - Parfume
 swagger: "2.0"
